@@ -24,12 +24,26 @@
     "dist",
     "docs"
   ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blujedis/vite-plugin-svelte-svgr"
+  },
+  "bugs": {
+    "url": "https://github.com/blujedis/vite-plugin-svelte-svgr/issues"
+  },
+  "homepage": "https://github.com/blujedis/vite-plugin-svelte-svgr#readme",
+  "author": {
+    "name": "Blujedis",
+    "url": "https://github.com/blujedis"
+  },
   "scripts": {
     "clean": "rimraf dist/",
     "build": "npm run clean && tsup && npm run types && cp src/modules.d.ts dist/types/",
     "types": "tsc --emitDeclarationOnly",
     "dev": "tsup --watch src & npm run types",
     "docs": "rimraf docs/ && typedoc src/index.ts && touch ./docs/.nojekyll",
+    "prepare": "husky install",
     "prepublishOnly": "npm run build && npm run docs",
     "semantic-release": "semantic-release --branches main"
   },
@@ -47,35 +61,30 @@
       "esm"
     ]
   },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/blujedis/vite-plugin-svelte-svgr"
-  },
-  "bugs": {
-    "url": "https://github.com/blujedis/vite-plugin-svelte-svgr/issues"
-  },
-  "homepage": "https://github.com/blujedis/vite-plugin-svelte-svgr#readme",
-  "author": {
-    "name": "Blujedis",
-    "url": "https://github.com/blujedis"
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "dependencies": {
     "@rollup/pluginutils": "^4.2.1",
     "picomatch": "^2.3.1",
-    "rimraf": "^3.0.2",
     "svgo": "^2.3.0"
   },
   "devDependencies": {
-    "@types/node": "^15.0.1",
+    "rimraf": "^3.0.2",
     "@types/svgo": "^2.3.0",
+    "@types/node": "^15.0.1",
     "prettier": "^2.2.1",
     "semantic-release": "^19.0.3",
-    "svelte": "^3.37.0",
-    "tsup": "^6.1.2",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "husky": "^8.0.1",
     "typedoc": "^0.23.5",
     "typescript": "^4.2.4",
-    "vite": "^2.9.13"
+    "vite": "^2.9.13",
+    "svelte": "^3.37.0",
+    "tsup": "^6.1.2"
   },
   "peerDependencies": {
     "svelte": "3.x",
