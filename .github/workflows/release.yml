@@ -1,23 +1,25 @@
-name: Release npm package
+name: Release Package
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main'}}
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@main
+      - name: Setup Node.js 14.x
+        uses: actions/setup-node@v2
         with:
-          node-version: "12.x"
+          node-version: 14.x
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.SERVICE_ACCT }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_BLUREG }}

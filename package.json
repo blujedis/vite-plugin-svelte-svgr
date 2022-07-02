@@ -21,7 +21,8 @@
     "svgo"
   ],
   "files": [
-    "dist"
+    "dist",
+    "docs"
   ],
   "scripts": {
     "clean": "rimraf dist/",
