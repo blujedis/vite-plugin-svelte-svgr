@@ -1,0 +1,83 @@
+{
+  "name": "vite-plugin-svelte-svgr",
+  "version": "0.0.0-development",
+  "description": "Vite plugin to enable normalized SVG imports.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "keywords": [
+    "svg",
+    "vite-plugin",
+    "vite-plugin-svgr",
+    "svelte",
+    "sveltekit",
+    "svgo"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist/",
+    "build": "npm run clean && tsup && npm run types && cp src/modules.d.ts dist/types/",
+    "types": "tsc --emitDeclarationOnly",
+    "dev": "tsup --watch src & npm run types",
+    "docs": "rimraf docs/ && typedoc src/index.ts && touch ./docs/.nojekyll",
+    "prepublishOnly": "npm run build && npm run docs",
+    "semantic-release": "semantic-release --branches main"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true,
+    "dts": false,
+    "treeshake": true,
+    "format": [
+      "cjs",
+      "esm"
+    ]
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blujedis/vite-plugin-svelte-svgr"
+  },
+  "bugs": {
+    "url": "https://github.com/blujedis/vite-plugin-svelte-svgr/issues"
+  },
+  "homepage": "https://github.com/blujedis/vite-plugin-svelte-svgr#readme",
+  "author": {
+    "name": "Blujedis",
+    "url": "https://github.com/blujedis"
+  },
+  "dependencies": {
+    "@rollup/pluginutils": "^4.2.1",
+    "picomatch": "^2.3.1",
+    "rimraf": "^3.0.2",
+    "svgo": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.1",
+    "@types/svgo": "^2.3.0",
+    "prettier": "^2.2.1",
+    "semantic-release": "^19.0.3",
+    "svelte": "^3.37.0",
+    "tsup": "^6.1.2",
+    "typedoc": "^0.23.5",
+    "typescript": "^4.2.4",
+    "vite": "^2.9.13"
+  },
+  "peerDependencies": {
+    "svelte": "3.x",
+    "vite": "^2.9.13"
+  }
+}
