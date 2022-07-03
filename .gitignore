@@ -131,5 +131,4 @@ dist
 .pnp.*
 .DS_Store
 .tmp
-.npmrc
 
