@@ -85,5 +85,9 @@
   "peerDependencies": {
     "svelte": "3.x",
     "vite": "^2.9.13"
+  },
+  "publishConfig": {
+    "registry": "https://blureg.blujedi.com/",
+    "tag": "latest"
   }
 }
