@@ -89,5 +89,10 @@
   "publishConfig": {
     "registry": "https://blureg.blujedi.com/",
     "tag": "latest"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
   }
 }
