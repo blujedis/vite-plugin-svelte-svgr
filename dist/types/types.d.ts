@@ -1,6 +1,7 @@
 import type { OptimizeOptions } from 'svgo';
-import { FilterPattern } from '@rollup/pluginutils';
 export declare type SvgType = 'raw' | 'url' | 'component';
+export { OptimizeOptions };
+export declare type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null;
 export interface PluginOptions {
     /**
      * The default output type for imported SVG.

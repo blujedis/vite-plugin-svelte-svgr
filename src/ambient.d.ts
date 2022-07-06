@@ -7,7 +7,8 @@ declare module '*.svg' {
 
 declare module '*.svg?component' {
   import { SvelteComponent } from 'svelte';
-  const content: SvelteComponent;
+  // removing typeof here will cause JSX to complain.
+  const content: typeof SvelteComponent;
   export default content;
 }
 
