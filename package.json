@@ -39,14 +39,14 @@
   },
   "scripts": {
     "clean": "rimraf dist/",
-    "build": "npm run clean && tsup && npm run types && cp src/modules.d.ts dist/types/",
+    "build": "npm run clean && tsup && npm run types && node ./postbuild",
     "types": "tsc --emitDeclarationOnly",
     "dev": "tsup --watch src & npm run types",
     "docs": "rimraf docs/ && typedoc src/index.ts && touch ./docs/.nojekyll",
-    "test": "echo \"Warn: no test specified in vite-plugin-svelte-svgr\"",
     "prepare": "husky install",
     "prepublishOnly": "npm run build && npm run docs",
-    "semantic-release": "semantic-release --branches main"
+    "semantic-release": "semantic-release --branches main",
+    "test": "echo \"Warn: no test specified in vite-plugin-svelte-svgr\""
   },
   "tsup": {
     "entry": [
@@ -68,31 +68,68 @@
     "svgo": "^2.3.0"
   },
   "devDependencies": {
-    "rimraf": "^3.0.2",
-    "@types/svgo": "^2.3.0",
-    "@types/node": "^15.0.1",
-    "prettier": "^2.2.1",
-    "semantic-release": "^19.0.3",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^9.0.1",
+    "@semantic-release/release-notes-generator": "^10.0.3",
+    "@types/node": "^15.0.1",
+    "@types/svgo": "^2.3.0",
     "husky": "^8.0.0",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "semantic-release": "^19.0.3",
+    "svelte": "^3.37.0",
+    "tsup": "^6.1.2",
     "typedoc": "^0.23.5",
     "typescript": "^4.2.4",
-    "vite": "^2.9.13",
-    "svelte": "^3.37.0",
-    "tsup": "^6.1.2"
+    "vite": "^2.9.13"
   },
   "peerDependencies": {
     "svelte": "3.x",
     "vite": "^2.9.13"
   },
   "publishConfig": {
-    "registry": "https://blureg.blujedi.com/",
+    "registry": "https://registry.npmjs.org",
     "tag": "latest"
   },
   "release": {
     "branches": [
       "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/changelog",
+      "@semantic-release/git"
+    ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.svelte$": [
+        "svelte-jester",
+        {
+          "preprocess": true
+        }
+      ],
+      "^.+\\.ts$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "svelte"
+    ],
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
     ]
   }
 }

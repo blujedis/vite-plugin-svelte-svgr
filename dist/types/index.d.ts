@@ -8,3 +8,4 @@ import { PluginOptions } from './types';
 declare function initPlugin(opts?: PluginOptions): Plugin;
 export * from './types';
 export default initPlugin;
+import './ambient';

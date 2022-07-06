@@ -31,7 +31,7 @@ const config = {
   kit: {
     ...,
     vite: {
-      // Options are optional
+      // see https://github.com/svg/svgo for svgo plugin options.
       plugins: [svg(options)]
     }
   }
@@ -62,6 +62,8 @@ const config = {
     vite: {
       plugins: [
         // Apply plugin for SVG's to be used as URLs only.
+        // When using "url" it's just that returns whatever the
+        // url is, there is no svgo preprocessing in that case.
         svg({
           type: 'url',
           include: './src/lib/icons/urls',
