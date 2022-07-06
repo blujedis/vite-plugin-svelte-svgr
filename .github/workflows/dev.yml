@@ -1,4 +1,4 @@
-name: Release Package
+name: Build Test
 
 on:
   push:
@@ -6,9 +6,9 @@ on:
       - dev
 
 jobs:
-  release:
+  build:
     # if: ${{ false }}  # when uncommented disables workflow
-    name: Release
+    name: Build
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main'}}
     steps:
