@@ -4,6 +4,8 @@ A Vite plugin which enables SVG import similar to what you may be accustomed to 
 
 If you still need to manage one off or custom SVG elements in [SvelteKit](https://kit.svelte.dev/) then this will work as needed and will provide proper types for Typescript users.
 
+[See Instructions for Typescript](#imports-with-typescript)
+
 ## Install
 
 ```sh
@@ -200,11 +202,15 @@ Another options is to create a Mock component then point the module mapper to th
 
 **Create Mock Component**
 
+Create an empty SVG element at `src/lib/icons/Mock.svelte`
+
 ```svelte
 <svg />
 ```
 
 **Update Jest Config**
+
+Update module name mapper to reflect the above path in your `package.json` or jest config file. 
 
 ```js
 module.exports = {
@@ -216,7 +222,7 @@ module.exports = {
 
 ## Docs
 
-See [https://blujedis.github.io/lokalo/](https://blujedis.github.io/vite-plugin-svelte-svgr/)
+See [https://blujedis.github.io/vite-plugin-svelte-svgr/](https://blujedis.github.io/vite-plugin-svelte-svgr/)
 
 ## License
 
