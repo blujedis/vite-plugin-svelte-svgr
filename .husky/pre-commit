@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm test && git add .
+npm run lint && npx pretty-quick --staged && npm test && git add .
