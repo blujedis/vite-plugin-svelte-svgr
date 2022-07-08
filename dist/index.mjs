@@ -11,7 +11,18 @@ var SVG_MATCH_EXP = /\.svg(?:\?(raw|url|component))?$/;
 var DEFAULTS = {
   type: "component"
 };
-var SVGO_DEFAULTS = {};
+var SVGO_DEFAULTS = {
+  plugins: [
+    {
+      name: "preset-default",
+      params: {
+        overrides: {
+          removeViewBox: false
+        }
+      }
+    }
+  ]
+};
 var cache = /* @__PURE__ */ new Map();
 function extendWithProps(data) {
   const parts = SVG_PARTS_EXP.exec(data);
@@ -76,7 +87,7 @@ export default \`${optimized.data}\`;`;
           return data;
         } catch (err) {
           const { stack } = err;
-          const message = `Failed to read SVG at ${id}`;
+          const message = `SVG at ${id} could NOT be resolved. See stack below.`;
           console.error(`${message}
 ${stack}`);
         }

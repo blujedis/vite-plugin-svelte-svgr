@@ -1,135 +1,142 @@
 {
-  "name": "vite-plugin-svelte-svgr",
-  "version": "1.0.2",
-  "description": "Vite plugin to enable normalized SVG imports.",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/types/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/types/index.d.ts"
-    }
-  },
-  "keywords": [
-    "svg",
-    "vite-plugin",
-    "vite-plugin-svgr",
-    "svelte",
-    "sveltekit",
-    "svgo"
-  ],
-  "files": [
-    "dist",
-    "docs"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/blujedis/vite-plugin-svelte-svgr"
-  },
-  "bugs": {
-    "url": "https://github.com/blujedis/vite-plugin-svelte-svgr/issues"
-  },
-  "homepage": "https://github.com/blujedis/vite-plugin-svelte-svgr#readme",
-  "author": {
-    "name": "Blujedis",
-    "url": "https://github.com/blujedis"
-  },
-  "scripts": {
-    "clean": "rimraf dist/",
-    "build": "npm run clean && tsup && npm run types && node ./postbuild",
-    "types": "tsc --emitDeclarationOnly",
-    "dev": "tsup --watch src & npm run types",
-    "docs": "rimraf docs/ && typedoc src/index.ts && touch ./docs/.nojekyll",
-    "prepare": "husky install",
-    "prepublishOnly": "npm run build && npm run docs",
-    "semantic-release": "semantic-release --branches main",
-    "test": "echo \"Warn: no test specified in vite-plugin-svelte-svgr\""
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "splitting": false,
-    "sourcemap": true,
-    "clean": true,
-    "dts": false,
-    "treeshake": true,
-    "format": [
-      "cjs",
-      "esm"
-    ]
-  },
-  "dependencies": {
-    "@rollup/pluginutils": "^4.2.1",
-    "picomatch": "^2.3.1",
-    "svgo": "^2.3.0"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^17.0.3",
-    "@commitlint/config-conventional": "^17.0.3",
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/commit-analyzer": "^9.0.2",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^9.0.1",
-    "@semantic-release/release-notes-generator": "^10.0.3",
-    "@types/node": "^15.0.1",
-    "@types/svgo": "^2.3.0",
-    "husky": "^8.0.0",
-    "prettier": "^2.2.1",
-    "rimraf": "^3.0.2",
-    "semantic-release": "^19.0.3",
-    "svelte": "^3.37.0",
-    "tsup": "^6.1.2",
-    "typedoc": "^0.23.5",
-    "typescript": "^4.2.4",
-    "vite": "^2.9.13"
-  },
-  "peerDependencies": {
-    "svelte": "3.x",
-    "vite": "^2.9.13"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org",
-    "tag": "latest"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ],
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/npm",
-        {
-          "npmPublish": true
-        }
-      ],
-      "@semantic-release/changelog",
-      "@semantic-release/git"
-    ]
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.svelte$": [
-        "svelte-jester",
-        {
-          "preprocess": true
-        }
-      ],
-      "^.+\\.ts$": "ts-jest"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "svelte"
-    ],
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-dom/extend-expect"
-    ]
-  }
+	"name": "vite-plugin-svelte-svgr",
+	"version": "0.0.0-development",
+	"description": "Vite plugin to enable normalized SVG imports.",
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/types/index.d.ts",
+	"exports": {
+		".": {
+			"require": "./dist/index.js",
+			"import": "./dist/index.mjs",
+			"types": "./dist/types/index.d.ts"
+		}
+	},
+	"keywords": [
+		"svg",
+		"vite-plugin",
+		"vite-plugin-svgr",
+		"svelte",
+		"sveltekit",
+		"svgo"
+	],
+	"files": [
+		"dist",
+		"docs"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/blujedis/vite-plugin-svelte-svgr"
+	},
+	"bugs": {
+		"url": "https://github.com/blujedis/vite-plugin-svelte-svgr/issues"
+	},
+	"homepage": "https://github.com/blujedis/vite-plugin-svelte-svgr#readme",
+	"author": {
+		"name": "Blujedis",
+		"url": "https://github.com/blujedis"
+	},
+	"scripts": {
+		"clean": "rimraf dist/",
+		"build": "npm run clean && tsup && npm run types && node ./postbuild",
+		"types": "tsc --emitDeclarationOnly",
+		"dev": "tsup --watch src & npm run types",
+		"docs": "rimraf docs/ && typedoc src/index.ts && touch ./docs/.nojekyll",
+		"prepare": "husky install",
+		"prepublishOnly": "npm run build && npm run docs",
+		"semantic-release": "semantic-release --branches main",
+		"format": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
+		"lint": "eslint --ignore-path .gitignore . --ext .js,.jsx,.ts,.tsx",
+		"lint:fix": "npm run lint -- --fix",
+		"test": "echo \"Warn: no test specified in vite-plugin-svelte-svgr\""
+	},
+	"tsup": {
+		"entry": [
+			"src/index.ts"
+		],
+		"splitting": false,
+		"sourcemap": true,
+		"clean": true,
+		"dts": false,
+		"treeshake": true,
+		"format": [
+			"cjs",
+			"esm"
+		]
+	},
+	"dependencies": {
+		"@rollup/pluginutils": "^4.2.1",
+		"picomatch": "^2.3.1",
+		"svgo": "^2.3.0"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^17.0.3",
+		"@commitlint/config-conventional": "^17.0.3",
+		"@semantic-release/changelog": "^6.0.1",
+		"@semantic-release/commit-analyzer": "^9.0.2",
+		"@semantic-release/git": "^10.0.1",
+		"@semantic-release/npm": "^9.0.1",
+		"@semantic-release/release-notes-generator": "^10.0.3",
+		"@typescript-eslint/eslint-plugin": "^5.30.5",
+		"@typescript-eslint/parser": "^5.30.5",
+		"eslint": "^8.19.0",
+		"@types/node": "^15.0.1",
+		"@types/svgo": "^2.3.0",
+		"husky": "^8.0.0",
+		"prettier": "^2.2.1",
+		"rimraf": "^3.0.2",
+		"semantic-release": "^19.0.3",
+		"svelte": "^3.37.0",
+		"tsup": "^6.1.2",
+		"typedoc": "^0.23.5",
+		"typescript": "^4.2.4",
+		"vite": "^2.9.13",
+		"pretty-quick": "^3.1.3"
+	},
+	"peerDependencies": {
+		"svelte": "3.x",
+		"vite": "^2.9.13"
+	},
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org",
+		"tag": "latest"
+	},
+	"release": {
+		"branches": [
+			"main"
+		],
+		"plugins": [
+			"@semantic-release/commit-analyzer",
+			"@semantic-release/release-notes-generator",
+			[
+				"@semantic-release/npm",
+				{
+					"npmPublish": true
+				}
+			],
+			"@semantic-release/changelog",
+			"@semantic-release/git"
+		]
+	},
+	"jest": {
+		"transform": {
+			"^.+\\.svelte$": [
+				"svelte-jester",
+				{
+					"preprocess": true
+				}
+			],
+			"^.+\\.ts$": "ts-jest"
+		},
+		"moduleFileExtensions": [
+			"js",
+			"ts",
+			"svelte"
+		],
+		"testEnvironment": "jsdom",
+		"setupFilesAfterEnv": [
+			"@testing-library/jest-dom/extend-expect"
+		]
+	}
 }

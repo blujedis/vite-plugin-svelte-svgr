@@ -1,10 +1,7 @@
 {
-  "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": [
-    "./src/index.ts",
-    "./src/modules.d.ts"
-  ],
-  "out": "./docs",
-  "name": "Svelte-SVGR",
-  "readme": "none"
+	"$schema": "https://typedoc.org/schema.json",
+	"entryPoints": ["./src/index.ts", "./src/ambient.d.ts"],
+	"out": "./docs",
+	"name": "Svelte-SVGR",
+	"readme": "none"
 }

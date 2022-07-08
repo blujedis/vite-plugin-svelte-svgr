@@ -1,5 +1,9 @@
 # Vite Plugin Svelte SVGR
 
+<div style="margin-bottom: 12px;">
+  <img src="fixtures/example.png" alt="Plugin example image" width="300"/>
+</div>
+
 A Vite plugin which enables SVG import similar to what you may be accustomed to in React. While this plugin or similar may be required for your needs I would encourage you to consider using a library such as [Iconify](https://docs.iconify.design/) if you are only interested in using Icons from icon sets.
 
 If you still need to manage one off or custom SVG elements in [SvelteKit](https://kit.svelte.dev/) then this will work as needed and will provide proper types for Typescript users.
@@ -24,6 +28,22 @@ npm install vite-plugin-svelte-svgr -D
 
 Import the plugin and extend `svelte.config.js` with an instance of the plugin containing your options as shown below.
 
+### @sveltejs/kit@1.0.0-next.346 and Above
+
+Defined in `vite.config.js`
+
+```js
+import svg from 'vite-plugin-svelte-svgr';
+
+const config = {
+	// see https://github.com/svg/svgo for svgo plugin options.
+	plugins: [svg()]
+};
+export default config;
+```
+
+### @sveltejs/kit@1.0.0-next.345 and Below
+
 ```js
 import svg from 'vite-plugin-svelte-svgr';
 
@@ -34,53 +54,41 @@ const config = {
     ...,
     vite: {
       // see https://github.com/svg/svgo for svgo plugin options.
-      plugins: [svg(options)]
+      plugins: [svg()]
     }
   }
 };
 export default config
 ```
 
-### Advanced Example
+### Advanced Options
 
-It's not uncommon to have one group of svg icons that you use as urls only, while others you may wish to use as a component. This can be achieved by defining your include/exclude parameters along with whatever [SVGO](https://github.com/svg/svgo) options you wish to use.
+It's not uncommon to have one group of svg icons that you use as urls or raw only, while others you may wish to use as a component. This can be achieved by defining your include/exclude parameters along with whatever [SVGO](https://github.com/svg/svgo) options you wish to use.
+
+The following options would be passed to the `svg()` plugin init function as shown above. As explained for newer version of `SvelteKit` this would be defined in the plugins property found in `vite.config.js`. For older versions of `SvelteKit` this would be defined in the plugins property of `svelte.config.js` under `kit.vite`.
 
 ```js
 const svgoOptions = {
-  multipass: true,
-  plugins: [
-    // There is an open PR yet to be merged that will eventually make the below unnecessary.
-    // Currently "removeViewBox" plugin is included in the default SVGO plugin options.
-    // If you want SVG's to scale you'll likely want to set this as false. 
-    // See https://github.com/svg/svgo/pull/1461/commits/ea0f5d23df23fe62ca0f696ab6ec67ab0370f770
-    { name: 'preset-default', params: { overrides: { removeViewBox: false }}}
-  ]
+	multipass: true,
+	plugins: [
+		// Ensuring viewbox isn't removed.
+		{
+			name: 'preset-default',
+			params: {
+				overrides: {
+					removeViewBox: false
+				}
+			}
+		},
+		{
+			// setting fill attribute to "currentColor"
+			name: 'addAttributesToSVGElement',
+			params: {
+				attributes: [{ fill: 'currentColor' }]
+			}
+		}
+	]
 };
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
-  ...,
-  kit: {
-    ...,
-    vite: {
-      plugins: [
-        // Apply plugin for SVG's to be used as URLs only.
-        // When using "url" it's just that returns whatever the
-        // url is, there is no svgo preprocessing in that case.
-        svg({
-          type: 'url',
-          include: './src/lib/icons/urls',
-          svgo: { ..svgoOptions }
-        }),
-        // Apply plugin for SVG's you wish to use as components
-        svg({
-          type: 'component'
-          include: './src/lib/icons/components',
-          svgo: { ..svgoOptions }
-        })
-      ]
-    }
-  }
-}
 ```
 
 ## Basic Usage
@@ -127,50 +135,48 @@ Or perhaps a class when using [Tailwind](https://tailwindcss.com/)
 
 While not using [Rollup](https://rollupjs.org/guide/en/) we are underneath using a filtering tool created for Rollup. For [reference](https://github.com/rollup/plugins/tree/master/packages/pluginutils#createfilter) for more information on how to use `root`, `include` and `exclude` properties.
 
-````ts
+```ts
 interface Options {
+	/**
+	 * The default output type for imported SVG.
+	 *
+	 * @default 'component'
+	 */
+	type?: SvgType;
 
-  /**
-   * The default output type for imported SVG.
-   *
-   * @default 'component'
-   */
-  type?: SvgType;
+	/**
+	 * The root path that below include/exclude scopes will be resolved from.
+	 * If undefined process.cwd() is used and likely what you want.
+	 *
+	 * @default undefined
+	 */
+	root?: string;
 
-  /**
-   * The root path that below include/exclude scopes will be resolved from.
-   * If undefined process.cwd() is used and likely what you want.
-   * 
-   * @default undefined
-   */
-  root?: string;
+	/**
+	 * The scopes/paths to be processed. If undefined all resolved SVG are processed.
+	 *
+	 * @default undefined
+	 */
+	include?: FilterPattern;
 
-  /**
-   * The scopes/paths to be processed. If undefined all resolved SVG are processed.
-   * 
-   * @default undefined
-   */
-  include?: FilterPattern;
+	/**
+	 * The scopes/paths to be excluded. If undefined no svg files will be unprocessed.
+	 *
+	 * @default undefined
+	 */
+	exclude?: FilterPattern;
 
-  /**
-   * The scopes/paths to be excluded. If undefined no svg files will be unprocessed.
-   * 
-   * @default undefined
-   */
-  exclude?: FilterPattern;
-
-  /**
-   * Specify svgo options, leave undefined for defaults or false to disabled
-   * optimization. The plugin will also look for `svgo.config.js` if you prefer
-   * a configuration file.
-   *
-   * @see https://github.com/svg/svgo
-   * @default undefined
-   */
-  svgo?: OptimizeOptions | boolean;
-
+	/**
+	 * Specify svgo options, leave undefined for defaults or false to disabled
+	 * optimization. The plugin will also look for `svgo.config.js` if you prefer
+	 * a configuration file.
+	 *
+	 * @see https://github.com/svg/svgo
+	 * @default undefined
+	 */
+	svgo?: OptimizeOptions | boolean;
 }
-````
+```
 
 ## Imports with Typescript
 
@@ -185,11 +191,11 @@ Simply add the reference to our plugin module and the error should go away. **Af
 
 ## Jest Testing
 
-To make [Jest](https://jestjs.io/) happy you'll need to adjust your `jest.config.js` telling Jest how to handle `.svg` components. There are a couple of ways of doing this. Here's one. 
+To make [Jest](https://jestjs.io/) happy you'll need to adjust your `jest.config.js` telling Jest how to handle `.svg` components. There are a couple of ways of doing this. Here's one.
 
 Install the `jest-transform-stub`
 
-```js  
+```js
 module.exports = {
   ...
   moduleNameMapper: {
@@ -210,14 +216,14 @@ Create an empty SVG element at `src/lib/icons/Mock.svelte`
 
 **Update Jest Config**
 
-Update module name mapper to reflect the above path in your `package.json` or jest config file. 
+Update module name mapper to reflect the above path in your `package.json` or jest config file.
 
 ```js
 module.exports = {
-  moduleNameMapper: {
-    '^.+\\.svg$': '<rootDir>/src/lib/icons/Mock.svelte',
-  },
-}
+	moduleNameMapper: {
+		'^.+\\.svg$': '<rootDir>/src/lib/icons/Mock.svelte'
+	}
+};
 ```
 
 ## Docs
@@ -227,5 +233,3 @@ See [https://blujedis.github.io/vite-plugin-svelte-svgr/](https://blujedis.githu
 ## License
 
 See [LICENSE](LICENSE)
-
-
