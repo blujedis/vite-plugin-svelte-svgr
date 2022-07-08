@@ -4,9 +4,13 @@
   <img src="fixtures/example.png" alt="Plugin example image" width="300"/>
 </div>
 
-A Vite plugin which enables SVG import similar to what you may be accustomed to in React. While this plugin or similar may be required for your needs I would encourage you to consider using a library such as [Iconify](https://docs.iconify.design/) if you are only interested in using Icons from icon sets.
+A Vite plugin which enables SVG import similar to what you may be accustomed to in React.
 
-If you still need to manage one off or custom SVG elements in [SvelteKit](https://kit.svelte.dev/) then this will work as needed and will provide proper types for Typescript users.
+This plugin will preprocess SVG elements for [SvelteKit](https://kit.svelte.dev/) that may then be easily imported into your project. Additionally the proper types for Typescript users have been provied.
+
+**Note**
+
+While this plugin or similar may be required for your needs I would encourage you to consider using a library such as [Iconify](https://docs.iconify.design/) if you are only interested in using Icons from icon sets.
 
 [See Instructions for Typescript](#imports-with-typescript)
 
@@ -182,11 +186,21 @@ interface Options {
 
 You'll likely want to create a reference to the ambient modules types in your `app.d.ts` (for Svelte Kit) or applicable. Typescript will likely complain about importing a path like`./path/to/some.svg?component`;
 
-Simply add the reference to our plugin module and the error should go away. **After updating you may need to close your editor or restart the [Typescript](https://www.typescriptlang.org/) server**.
+Simply add the reference to our plugin and the error should go away. **After updating you may need to close your editor or restart the [Typescript](https://www.typescriptlang.org/) server**.
 
 ```ts
 /* app.d.ts or other global types file */
 /// <reference types="vite-plugin-svelte-svgr" />
+```
+
+**You can also reference in tsconfig.json**
+
+```json
+{
+	"compilerOptions": {
+		"type": ["vite-plugin-svelte-svgr"]
+	}
+}
 ```
 
 ## Jest Testing
