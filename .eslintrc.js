@@ -11,5 +11,5 @@ module.exports = {
 	},
 	plugins: ['@typescript-eslint'],
 	rules: {},
-	ignorePatterns: ['dist', 'docs', 'node_modules', 'postbuild.js']
+	ignorePatterns: ['dist', 'docs', 'node_modules', 'postbuild.js', 'example']
 };
