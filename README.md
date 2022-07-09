@@ -6,7 +6,7 @@
 
 A Vite plugin which enables SVG import similar to what you may be accustomed to in React.
 
-This plugin will preprocess SVG elements for [SvelteKit](https://kit.svelte.dev/) that may then be easily imported into your project. Additionally the proper types for Typescript users have been provied.
+This plugin will preprocess SVG elements for [SvelteKit](https://kit.svelte.dev/) that may then be easily imported into your project. Additionally the proper types for Typescript users have been provided.
 
 **Note**
 
@@ -37,19 +37,23 @@ Import the plugin and extend `svelte.config.js` with an instance of the plugin c
 Defined in `vite.config.js`
 
 ```js
-import svg from 'vite-plugin-svelte-svgr';
+import svgr from 'vite-plugin-svelte-svgr';
+import { sveltekit } from '@sveltejs/kit/vite';
 
 const config = {
 	// see https://github.com/svg/svgo for svgo plugin options.
-	plugins: [svg()]
+	plugins: [sveltekit(), svgr()]
 };
 export default config;
 ```
 
 ### @sveltejs/kit@1.0.0-next.345 and Below
 
+Defined in `svelte.config.js`
+
 ```js
-import svg from 'vite-plugin-svelte-svgr';
+import svgr from 'vite-plugin-svelte-svgr';
+import { sveltekit } from '@sveltejs/kit/vite';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -58,18 +62,50 @@ const config = {
     ...,
     vite: {
       // see https://github.com/svg/svgo for svgo plugin options.
-      plugins: [svg()]
+      plugins: [sveltekit(), svgr()]
     }
   }
 };
 export default config
 ```
 
-### Advanced Options
+## Advanced Options
 
 It's not uncommon to have one group of svg icons that you use as urls or raw only, while others you may wish to use as a component. This can be achieved by defining your include/exclude parameters along with whatever [SVGO](https://github.com/svg/svgo) options you wish to use.
 
-The following options would be passed to the `svg()` plugin init function as shown above. As explained for newer version of `SvelteKit` this would be defined in the plugins property found in `vite.config.js`. For older versions of `SvelteKit` this would be defined in the plugins property of `svelte.config.js` under `kit.vite`.
+**Example specifying type with include**
+
+When no query is used the defined type below will be applied for any SVG in the included path.
+
+```svelte
+<script lang="ts">
+  import SomeSvg from '$lib/icons/raw/some.svg'
+</script>
+```
+
+```js
+// see above for imports excluded for brevity.
+const config = {
+	plugins: [
+		sveltekit(),
+		svgr({
+			type: 'raw',
+			// see https://github.com/rollup/plugins/tree/master/packages/pluginutils#createfilter
+			// for how to use root, include and exclude options. If you are familiar with Rollup's
+			// create filter it's exactly that utility here doing its magic!!
+			include: ['src/lib/icons/raw']
+		})
+	]
+};
+```
+
+**Note**
+
+If in the case above you imported as `from '$lib/icons/raw/some.svg?component'` then the type designation in the configuration would be overridden a SvelteComponent SVG would be returned instead.
+
+### SVGO Options
+
+The following shows an example with customized SVGO options. It demonstrates how to override the default present as well as adding an attribute to all SVGs. In this case setting fill to "currentColor" which is a common use case causing the SVG to inherit or use the current css color property from the parent element. To make your SVG work like icons from iconsets setting this attribute or perhaps `stroke` is likely what you're after!
 
 ```js
 const svgoOptions = {
@@ -93,9 +129,22 @@ const svgoOptions = {
 		}
 	]
 };
+
+// showing config in `vite.config.js` for older
+// svelte kit configurations see above.
+const config = {
+	plugins: [
+		sveltekit(),
+		svgr({
+			svgo: svgoOptions
+		})
+	]
+};
+
+export default config;
 ```
 
-## Basic Usage
+## Usage
 
 **Import as Component:**
 
@@ -137,7 +186,7 @@ Or perhaps a class when using [Tailwind](https://tailwindcss.com/)
 
 ## Options
 
-While not using [Rollup](https://rollupjs.org/guide/en/) we are underneath using a filtering tool created for Rollup. For [reference](https://github.com/rollup/plugins/tree/master/packages/pluginutils#createfilter) for more information on how to use `root`, `include` and `exclude` properties.
+While not using [Rollup](https://rollupjs.org/guide/en/) we are underneath using a filtering tool created for Rollup. See [reference](https://github.com/rollup/plugins/tree/master/packages/pluginutils#createfilter) for more information on how to use `root`, `include` and `exclude` properties.
 
 ```ts
 interface Options {
