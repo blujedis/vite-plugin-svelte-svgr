@@ -1,3 +1,9 @@
+## [1.0.4](https://github.com/blujedis/vite-plugin-svelte-svgr/compare/v1.0.3...v1.0.4) (2022-09-22)
+
+### Bug Fixes
+
+- improve typings and related docs ([c203506](https://github.com/blujedis/vite-plugin-svelte-svgr/commit/c2035060b374bca91e73642d1c50711541dcb0c2))
+
 ## [1.0.3](https://github.com/blujedis/vite-plugin-svelte-svgr/compare/v1.0.2...v1.0.3) (2022-07-08)
 
 ### Bug Fixes
