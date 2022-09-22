@@ -1,6 +1,6 @@
 {
 	"name": "vite-plugin-svelte-svgr",
-	"version": "0.0.0-development",
+	"version": "1.0.3",
 	"description": "Vite plugin to enable normalized SVG imports.",
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
