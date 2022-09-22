@@ -150,9 +150,11 @@ export default config;
 
 Use the component as you would any Svelte component including passing props.
 
+While you can import without using the ?component param typings may complain due to default exports being overridden. If Typescript complains just use the `"./some/path/icon.svg?component"` instead of `"./some/path/icon.svg"`
+
 ```svelte
 <script>
-  import Logo from "./logo.svg";
+  import Logo from "./logo.svg?component";
 </script>
 
 <Logo width={200} />
@@ -247,7 +249,7 @@ Simply add the reference to our plugin and the error should go away. **After upd
 ```json
 {
 	"compilerOptions": {
-		"type": ["vite-plugin-svelte-svgr"]
+		"types": ["vite-plugin-svelte-svgr"]
 	}
 }
 ```

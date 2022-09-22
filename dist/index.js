@@ -1,34 +1,12 @@
 'use strict';
 
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var fs = require('fs');
+var compiler = require('svelte/compiler');
+var svgo = require('svgo');
+var pluginutils = require('@rollup/pluginutils');
 
 // src/index.ts
-var src_exports = {};
-__export(src_exports, {
-  default: () => src_default
-});
-module.exports = __toCommonJS(src_exports);
-var import_fs = require("fs");
-var import_compiler = require("svelte/compiler");
-var import_svgo = require("svgo");
-var import_pluginutils = require("@rollup/pluginutils");
-var { readFile } = import_fs.promises;
+var { readFile } = fs.promises;
 var SVG_PARTS_EXP = /(<svg.*?)(>.*)/s;
 var SVG_SUFFIX_EXP = /\.svg(\?.*)$/;
 var SVG_MATCH_EXP = /\.svg(?:\?(raw|url|component))?$/;
@@ -68,7 +46,7 @@ function initPlugin(opts = { type: "component" }) {
   svgoOptions = svgoOptions === true ? { ...SVGO_DEFAULTS } : svgoOptions;
   let filter;
   if (opts.include || opts.exclude)
-    filter = (0, import_pluginutils.createFilter)(opts.include, opts.exclude, { resolve: opts.root });
+    filter = pluginutils.createFilter(opts.include, opts.exclude, { resolve: opts.root });
   return {
     name: "svelte-svgr",
     async transform(src, id, options) {
@@ -87,7 +65,7 @@ function initPlugin(opts = { type: "component" }) {
             return cached;
           const filename = id.replace(SVG_SUFFIX_EXP, ".svg");
           let data = (await readFile(filename)).toString("utf-8");
-          const optimized = shouldOptimize ? (0, import_svgo.optimize)(data, { ...svgoOptions, path: filename }) : { data };
+          const optimized = shouldOptimize ? svgo.optimize(data, { ...svgoOptions, path: filename }) : { data };
           if (isSVGOError(optimized)) {
             console.error("Got optimize error from SVGO:", optimized);
             return void 0;
@@ -97,7 +75,7 @@ function initPlugin(opts = { type: "component" }) {
 export default \`${optimized.data}\`;`;
           } else {
             optimized.data = extendWithProps(optimized.data);
-            const { js } = (0, import_compiler.compile)(optimized.data, {
+            const { js } = compiler.compile(optimized.data, {
               css: false,
               filename: id,
               hydratable: true,
@@ -121,4 +99,6 @@ ${stack}`);
   };
 }
 var src_default = initPlugin;
+
+module.exports = src_default;
 //# sourceMappingURL=index.js.map
